@@ -1,10 +1,14 @@
 var gulp = require('gulp')
 var clean = require('gulp-clean');
-var uglifyjs = require('uglify-js');
+var rename = require("gulp-rename");
 var composer = require('gulp-uglify/composer');
+var sourcemaps = require('gulp-sourcemaps');
+
+
+var uglifyjs = require('uglify-js');
 var pump = require('pump');
 
-var sourcemaps = require('gulp-sourcemaps');
+
 var minify = composer(uglifyjs, console);
 
 gulp.task('js', ['clean'], function(cb) {
@@ -15,6 +19,7 @@ gulp.task('js', ['clean'], function(cb) {
             sourcemaps.init(),
             minify(options),
             sourcemaps.write('.'),
+            rename({ suffix: ".min" }),
             gulp.dest('dist')
         ],
         cb
