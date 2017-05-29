@@ -18,8 +18,8 @@ gulp.task('js', ['clean'], function(cb) {
             gulp.src(['js/**/*.js', "!js/**/*min.js"]),
             sourcemaps.init(),
             minify(options),
-            sourcemaps.write('.'),
             rename({ suffix: ".min" }),
+            sourcemaps.write('.'),
             gulp.dest('dist')
         ],
         cb
