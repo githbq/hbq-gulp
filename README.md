@@ -1,6 +1,5 @@
-> 项目描述
-
-![my love](./logo.png) 
+> hbq gulp 生成js sourcemap
+ 
 
 ## 功能介绍
 1. 简介1 
