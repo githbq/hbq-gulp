@@ -1,4 +1,5 @@
 const gulp = require('gulp')
+const watch = require('gulp-watch')
 const clean = require('gulp-clean')
 const rename = require("gulp-rename")
 const composer = require('gulp-uglify/composer')
@@ -12,26 +13,46 @@ const minify = composer(uglifyjs, console)
 const debug = require('gulp-debug')
 
 const { js, distPath } = require('../config/constants')
-/**
- * 压缩js
- */
-gulp.task('js', function (cb) {
-    // the same options as described above 
-    const options = {}
-    pump([
-        gulp.src(js.pattern),
+
+function getTasks(isWatch) {
+    const minifyOptions = {}
+    return [
+        (isWatch ? watch : gulp.src)(js.pattern, {}, function (e) {
+            const filePath = e.history[e.history.length - 1]
+            if (e.event === 'unlink') {
+                rimraf(filePath + '*')
+            }
+        }),
         debug({
             title: '编译:'
         }),
         plumber(),
         sourcemaps.init(),
-        minify(options),
+        minify(minifyOptions),
         rename({ suffix: ".min" }),
         sourcemaps.write('.'),
         gulp.dest(distPath)
-    ],
+    ]
+}
+/**
+ * 监听
+ */
+gulp.task('js-watch', function (cb) {
+    pump(
+        getTasks(true)
+        ,
+        cb
+    )
+})
+/**
+ * 压缩js
+ */
+gulp.task('js', function (cb) {
+    pump(
+        getTasks()
+        ,
         cb
     )
 })
 
-module.exports = 'js'
+module.exports = ['js-watch', 'js']

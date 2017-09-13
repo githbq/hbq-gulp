@@ -8,6 +8,7 @@
     },
     "dependencies": {},
     "devDependencies": {
+        "copy": "^0.3.1",
         "gulp": "^3.9.1",
         "gulp-clean": "^0.3.2",
         "gulp-concat": "^2.6.1",
@@ -20,7 +21,9 @@
         "gulp-sequence": "^0.4.6",
         "gulp-sourcemaps": "^2.6.0",
         "gulp-uglify": "^3.0.0",
+        "gulp-watch": "^4.3.11",
         "pump": "^1.0.2",
+        "rimraf": "^2.6.2",
         "uglify-js": "^3.0.13"
     },
     "keywords": [

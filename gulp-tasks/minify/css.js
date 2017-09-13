@@ -1,4 +1,5 @@
 const gulp = require('gulp')
+const watch = require('gulp-watch')
 const minifyCss = require('gulp-minify-css')
 const rename = require('gulp-rename')
 const sourcemaps = require('gulp-sourcemaps')
@@ -7,26 +8,39 @@ const gulpCopy = require('gulp-copy')
 const plumber = require('gulp-plumber')
 const debug = require('gulp-debug')
 const { css, distPath } = require('../config/constants')
-
-/**
- * 压缩css
- */
-gulp.task('css', function (cb) {
-    // the same options as described above 
-    const options = {}
-    pump([
-        gulp.src(css.pattern),
+const rimraf = require('rimraf')
+const copy = require('copy')
+function getTasks(isWatch) {
+    return [
+        (isWatch ? watch : gulp.src)(css.pattern, {}, function (e) {
+            const filePath = e.history[e.history.length - 1]
+            console.log('-------filePath', filePath)
+            if (e.event === 'unlink') {
+                rimraf(filePath + '*')
+            }
+        }),
         debug({
             title: '编译:'
         }),
         plumber(),
         sourcemaps.init(),
         minifyCss(),
-        rename({ suffix: ".min" }),
+        rename({ suffix: '.min' }),
         sourcemaps.write('.'),
         gulp.dest(distPath)
-    ],
-        cb
-    )
+    ]
+}
+/**
+ * 监听文件
+ */
+gulp.task('css-watch', function (cb) {
+    pump(getTasks(true), cb)
 })
-module.exports='css'
+/**
+ * 压缩css
+ */
+gulp.task('css', function (cb) {
+    pump(getTasks(), cb)
+})
+
+module.exports = ['css', 'css-watch']
