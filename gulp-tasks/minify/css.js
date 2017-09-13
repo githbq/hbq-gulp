@@ -6,7 +6,7 @@ const pump = require('pump')
 const gulpCopy = require('gulp-copy')
 const plumber = require('gulp-plumber')
 const debug = require('gulp-debug')
-const { css, distPath } = require('./config/constants')
+const { css, distPath } = require('../config/constants')
 
 /**
  * 压缩css
@@ -29,3 +29,4 @@ gulp.task('css', function (cb) {
         cb
     )
 })
+module.exports='css'

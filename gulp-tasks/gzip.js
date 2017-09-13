@@ -18,3 +18,4 @@ gulp.task('gzip', function (cb) {
         cb
     )
 })
+module.exports = 'gzip'

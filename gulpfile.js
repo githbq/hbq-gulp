@@ -1,7 +1,16 @@
 const gulp = require('gulp')
 const gulpSequence = require('gulp-sequence')
-require('require-dir')('./gulp-tasks')
+const pathTool = require('path')
+const requireTask = (...paths) => {
+    return require(pathTool.resolve('gulp-tasks', ...paths))
+}
 
 gulp.task('default', function (cb) {
-    gulpSequence('clean', 'copy', ['js', 'css'], 'gzip', cb)
+    gulpSequence(
+        requireTask('clean'),
+        requireTask('copy'),
+        requireTask('minify'),
+        requireTask('gzip'),
+        cb
+    )
 })

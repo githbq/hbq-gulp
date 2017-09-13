@@ -14,4 +14,4 @@ gulp.task('copy', function (cb) {
         cb
     )
 })
-module.exports = ['copy']
+module.exports = 'copy'

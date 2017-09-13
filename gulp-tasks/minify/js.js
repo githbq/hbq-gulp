@@ -11,7 +11,7 @@ const plumber = require('gulp-plumber')
 const minify = composer(uglifyjs, console)
 const debug = require('gulp-debug')
 
-const { js, distPath } = require('./config/constants')
+const { js, distPath } = require('../config/constants')
 /**
  * 压缩js
  */
@@ -33,3 +33,5 @@ gulp.task('js', function (cb) {
         cb
     )
 })
+
+module.exports = 'js'

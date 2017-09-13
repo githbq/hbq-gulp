@@ -12,3 +12,4 @@ gulp.task('clean', function (cb) {
         cb
     )
 })
+module.exports = 'clean'
