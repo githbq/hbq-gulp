@@ -1,28 +1,31 @@
 const gulp = require('gulp')
 const watch = require('gulp-watch')
-const minifyCss = require('gulp-minify-css')
-const rename = require('gulp-rename')
+const rename = require("gulp-rename")
+const composer = require('gulp-uglify/composer')
 const sourcemaps = require('gulp-sourcemaps')
+const uglifyjs = require('uglify-js')
 const pump = require('pump')
 const gulpCopy = require('gulp-copy')
 const plumber = require('gulp-plumber')
 const debug = require('gulp-debug')
 
-const rimraf = require('rimraf')
-const copy = require('copy')
 const filter = require('gulp-filter')
 const gzip = require('gulp-gzip')
+const gulpTs = require('gulp-typescript')
+const rimraf = require('rimraf')
 
-const gulpLess = require('gulp-less')
+const minify = composer(uglifyjs, console)
+const { ts, distPath, isGzip } = require('../config/constants')
 
-const { less, distPath, isGzip } = require('../config/constants')
+const tsProject = gulpTs.createProject('tsconfig.json')
 
 function getTasks(isWatch) {
+    const minifyOptions = {}
     return [
-        (isWatch ? watch : gulp.src)(less.pattern, {}, function (e) {
+        (isWatch ? watch : gulp.src)(ts.pattern, {}, function (e) {
             const filePath = e.history[e.history.length - 1]
-            // console.log('-------filePath', filePath)
-            // console.log('-------unlink', e.event)
+            console.log('-------filePath', filePath)
+            console.log('-------unlink', e.event)
             switch (e.event) {
                 case 'unlink': {
                     const filePattern = filePath + '*'
@@ -41,31 +44,31 @@ function getTasks(isWatch) {
         debug({ title: '编译:' }),
         plumber(),
         sourcemaps.init(),
-        gulpLess(),
-        gulp.dest(distPath),
-        minifyCss(),
-        rename({ suffix: '.min' }),
+        tsProject(),
+        // minify(minifyOptions),
+        // rename({ suffix: ".min" }),
         sourcemaps.write('.'),
-        gulp.dest(distPath),
-        filter(['**/*.min.css']),
-        ...(isGzip ? [gzip({
-            extension: 'gzip', append: true,
-            threshold: false
-        })] : []),
+        // gulp.dest(distPath),
+        // filter(['**/*.min.js']),
+        // ...(isGzip ? [gzip({
+        //     extension: 'gzip', append: true,
+        //     threshold: false
+        // })] : []),
         gulp.dest(distPath),
     ]
 }
 /**
- * 监听文件
+ * 监听
  */
-gulp.task('less-watch', function (cb) {
+gulp.task('ts-watch', function (cb) {
     pump(getTasks(true), cb)
 })
+
 /**
- * 压缩css
+ * 压缩js
  */
-gulp.task('less', function (cb) {
+gulp.task('ts', function (cb) {
     pump(getTasks(), cb)
 })
 
-module.exports = ['less', 'less-watch']
+module.exports = ['ts', 'ts-watch']

@@ -7,6 +7,9 @@ module.exports = {
     less: {
         pattern: ['src/**/*.less']
     },
+    ts: {
+        pattern: ['src/**/*.ts', "!src/**/*min.*"]
+    },
     js: {
         pattern: ['src/**/*.js', "!src/**/*min.*"]
     },
@@ -17,5 +20,6 @@ module.exports = {
         pattern: ['src/**/*.{js,html,css,json,md}']
     },
     distPath: 'dist',
-    isGzip: argv.gzip
+    isGzip: argv.gzip,
+    isWatch: argv.watch
 }

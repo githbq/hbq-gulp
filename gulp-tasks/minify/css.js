@@ -36,9 +36,7 @@ function getTasks(isWatch) {
                 } break
             }
         }),
-        debug({
-            title: '编译:'
-        }),
+        debug({ title: '编译:' }),
         plumber(),
         sourcemaps.init(),
         minifyCss(),

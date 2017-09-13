@@ -1,6 +1,5 @@
 const gulp = require('gulp')
 const watch = require('gulp-watch')
-const clean = require('gulp-clean')
 const rename = require("gulp-rename")
 const composer = require('gulp-uglify/composer')
 const sourcemaps = require('gulp-sourcemaps')
@@ -12,6 +11,7 @@ const debug = require('gulp-debug')
 
 const filter = require('gulp-filter')
 const gzip = require('gulp-gzip')
+const rimraf = require('rimraf')
 
 const minify = composer(uglifyjs, console)
 const { js, distPath, isGzip } = require('../config/constants')
@@ -21,13 +21,24 @@ function getTasks(isWatch) {
     return [
         (isWatch ? watch : gulp.src)(js.pattern, {}, function (e) {
             const filePath = e.history[e.history.length - 1]
-            if (e.event === 'unlink') {
-                rimraf(filePath + '*')
+            // console.log('-------filePath', filePath)
+            // console.log('-------unlink', e.event)
+            switch (e.event) {
+                case 'unlink': {
+                    const filePattern = filePath + '*'
+                    rimraf(filePattern, () => {
+                        console.log(`文件:${filePattern} 已删除!`)
+                    })
+                } break
+                case 'change': {
+
+                } break
+                case 'add': {
+
+                } break
             }
         }),
-        debug({
-            title: '编译:'
-        }),
+        debug({ title: '编译:' }),
         plumber(),
         sourcemaps.init(),
         minify(minifyOptions),
@@ -46,10 +57,7 @@ function getTasks(isWatch) {
  * 监听
  */
 gulp.task('js-watch', function (cb) {
-    pump(
-        getTasks(true)
-        ,
-        cb
+    pump(getTasks(true), cb
     )
 })
 
@@ -57,11 +65,7 @@ gulp.task('js-watch', function (cb) {
  * 压缩js
  */
 gulp.task('js', function (cb) {
-    pump(
-        getTasks()
-        ,
-        cb
-    )
+    pump(getTasks(), cb)
 })
 
 module.exports = ['js', 'js-watch']
