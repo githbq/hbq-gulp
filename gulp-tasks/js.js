@@ -5,7 +5,6 @@ const composer = require('gulp-uglify/composer')
 const sourcemaps = require('gulp-sourcemaps')
 const uglifyjs = require('uglify-js')
 const pump = require('pump')
-const gzip = require('./configs/gzip')
 const gulpCopy = require('gulp-copy')
 const plumber = require('gulp-plumber')
 
@@ -19,16 +18,14 @@ gulp.task('js', function (cb) {
     const options = {}
     pump([
         gulp.src(['src/**/*.js', "!src/**/*min.*"]),
+        debug({
+            title: '编译:'
+        }),
         plumber(),
-        // gulpCopy('dist', { prefix: 'src' }),
         sourcemaps.init(),
         minify(options),
         rename({ suffix: ".min" }),
         sourcemaps.write('.'),
-        debug({
-            title: '编译:'
-        }),
-        // gzip.get(),
         gulp.dest('dist')
     ],
         cb
