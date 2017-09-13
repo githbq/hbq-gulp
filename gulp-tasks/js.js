@@ -10,6 +10,8 @@ const plumber = require('gulp-plumber')
 
 const minify = composer(uglifyjs, console)
 const debug = require('gulp-debug')
+
+const { js, distPath } = require('./config/constants')
 /**
  * 压缩js
  */
@@ -17,7 +19,7 @@ gulp.task('js', function (cb) {
     // the same options as described above 
     const options = {}
     pump([
-        gulp.src(['src/**/*.js', "!src/**/*min.*"]),
+        gulp.src(js.pattern),
         debug({
             title: '编译:'
         }),
@@ -26,7 +28,7 @@ gulp.task('js', function (cb) {
         minify(options),
         rename({ suffix: ".min" }),
         sourcemaps.write('.'),
-        gulp.dest('dist')
+        gulp.dest(distPath)
     ],
         cb
     )
