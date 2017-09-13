@@ -32,3 +32,4 @@ typings/
 upload/
 yarn*
 page-lock*
+dist*/
