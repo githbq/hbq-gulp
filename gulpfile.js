@@ -10,7 +10,6 @@ gulp.task('default', function (cb) {
         requireTask('clean'),
         requireTask('copy'),
         requireTask('minify'),
-        requireTask('gzip'),
         cb
     )
 })

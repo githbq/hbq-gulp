@@ -7,9 +7,14 @@ const pump = require('pump')
 const gulpCopy = require('gulp-copy')
 const plumber = require('gulp-plumber')
 const debug = require('gulp-debug')
-const { css, distPath } = require('../config/constants')
+
 const rimraf = require('rimraf')
 const copy = require('copy')
+const filter = require('gulp-filter')
+const gzip = require('gulp-gzip')
+
+const { css, distPath } = require('../config/constants')
+
 function getTasks(isWatch) {
     return [
         (isWatch ? watch : gulp.src)(css.pattern, {}, function (e) {
@@ -39,7 +44,13 @@ function getTasks(isWatch) {
         minifyCss(),
         rename({ suffix: '.min' }),
         sourcemaps.write('.'),
-        gulp.dest(distPath)
+        gulp.dest(distPath),
+        filter(['**/*.min.css']),
+        gzip({
+            extension: 'gzip', append: true,
+            threshold: false
+        }),
+        gulp.dest(distPath),
     ]
 }
 /**

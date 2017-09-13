@@ -8,10 +8,12 @@ const uglifyjs = require('uglify-js')
 const pump = require('pump')
 const gulpCopy = require('gulp-copy')
 const plumber = require('gulp-plumber')
-
-const minify = composer(uglifyjs, console)
 const debug = require('gulp-debug')
 
+const filter = require('gulp-filter')
+const gzip = require('gulp-gzip')
+
+const minify = composer(uglifyjs, console)
 const { js, distPath } = require('../config/constants')
 
 function getTasks(isWatch) {
@@ -31,7 +33,13 @@ function getTasks(isWatch) {
         minify(minifyOptions),
         rename({ suffix: ".min" }),
         sourcemaps.write('.'),
-        gulp.dest(distPath)
+        gulp.dest(distPath),
+        filter(['**/*.min.js']),
+        gzip({
+            extension: 'gzip', append: true,
+            threshold: false
+        }),
+        gulp.dest(distPath),
     ]
 }
 /**
@@ -44,6 +52,7 @@ gulp.task('js-watch', function (cb) {
         cb
     )
 })
+
 /**
  * 压缩js
  */
@@ -55,4 +64,4 @@ gulp.task('js', function (cb) {
     )
 })
 
-module.exports = ['js-watch', 'js']
+module.exports = ['js', 'js-watch']
