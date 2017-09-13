@@ -1,7 +1,7 @@
-const gulp = require('gulp')
-const pump = require('pump')
-const plumber = require('gulp-plumber')
-const gzip = require('gulp-gzip')
+import gulp = require('gulp')
+import pump = require('pump')
+import plumber = require('gulp-plumber')
+import gzip = require('gulp-gzip')
 /**
  * 生成gzip文件
  */
@@ -18,4 +18,4 @@ gulp.task('gzip', function (cb) {
         cb
     )
 })
-module.exports = 'gzip'
+export default ['gzip']

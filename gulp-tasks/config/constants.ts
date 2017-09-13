@@ -1,6 +1,6 @@
-const { argv } = require('yargs')
+import { argv } from 'yargs'
 console.log('argv', argv)
-module.exports = {
+export default {
     css: {
         pattern: ['src/**/*.css', "!src/**/*min.*"]
     },
@@ -17,7 +17,7 @@ module.exports = {
         pattern: ['dist/**/*.min.*', '!dist/**/*.map']
     },
     copy: {
-        pattern: ['src/**/*.{js,html,css,json,md}']
+        pattern: ['src/**/*']
     },
     distPath: 'dist',
     isGzip: argv.gzip,
