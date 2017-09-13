@@ -14,9 +14,21 @@ function getTasks(isWatch) {
     return [
         (isWatch ? watch : gulp.src)(css.pattern, {}, function (e) {
             const filePath = e.history[e.history.length - 1]
-            console.log('-------filePath', filePath)
-            if (e.event === 'unlink') {
-                rimraf(filePath + '*')
+            // console.log('-------filePath', filePath)
+            // console.log('-------unlink', e.event)
+            switch (e.event) {
+                case 'unlink': {
+                    const filePattern = filePath + '*'
+                    rimraf(filePattern, () => {
+                        console.log(`文件:${filePattern} 已删除!`)
+                    })
+                } break
+                case 'change': {
+
+                } break
+                case 'add': {
+
+                } break
             }
         }),
         debug({
