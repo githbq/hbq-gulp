@@ -1,3 +1,5 @@
+const { argv } = require('yargs')
+console.log('argv', argv)
 module.exports = {
     css: {
         pattern: ['src/**/*.css', "!src/**/*min.*"]
@@ -14,5 +16,6 @@ module.exports = {
     copy: {
         pattern: ['src/**/*.{js,html,css,json,md}']
     },
-    distPath: 'dist'
+    distPath: 'dist',
+    isGzip: argv.gzip
 }

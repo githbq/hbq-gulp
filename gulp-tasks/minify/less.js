@@ -15,7 +15,7 @@ const gzip = require('gulp-gzip')
 
 const gulpLess = require('gulp-less')
 
-const { less, distPath } = require('../config/constants')
+const { less, distPath, isGzip } = require('../config/constants')
 
 function getTasks(isWatch) {
     return [
@@ -50,10 +50,10 @@ function getTasks(isWatch) {
         sourcemaps.write('.'),
         gulp.dest(distPath),
         filter(['**/*.min.css']),
-        gzip({
+        ...(isGzip ? [gzip({
             extension: 'gzip', append: true,
             threshold: false
-        }),
+        })] : []),
         gulp.dest(distPath),
     ]
 }

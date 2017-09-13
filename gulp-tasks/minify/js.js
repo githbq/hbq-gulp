@@ -14,7 +14,7 @@ const filter = require('gulp-filter')
 const gzip = require('gulp-gzip')
 
 const minify = composer(uglifyjs, console)
-const { js, distPath } = require('../config/constants')
+const { js, distPath, isGzip } = require('../config/constants')
 
 function getTasks(isWatch) {
     const minifyOptions = {}
@@ -35,10 +35,10 @@ function getTasks(isWatch) {
         sourcemaps.write('.'),
         gulp.dest(distPath),
         filter(['**/*.min.js']),
-        gzip({
+        ...(isGzip ? [gzip({
             extension: 'gzip', append: true,
             threshold: false
-        }),
+        })] : []),
         gulp.dest(distPath),
     ]
 }

@@ -13,7 +13,7 @@ const copy = require('copy')
 const filter = require('gulp-filter')
 const gzip = require('gulp-gzip')
 
-const { css, distPath } = require('../config/constants')
+const { css, distPath, isGzip } = require('../config/constants')
 
 function getTasks(isWatch) {
     return [
@@ -46,10 +46,10 @@ function getTasks(isWatch) {
         sourcemaps.write('.'),
         gulp.dest(distPath),
         filter(['**/*.min.css']),
-        gzip({
+        ...(isGzip ? [gzip({
             extension: 'gzip', append: true,
             threshold: false
-        }),
+        })] : []),
         gulp.dest(distPath),
     ]
 }
