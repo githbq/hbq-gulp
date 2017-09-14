@@ -4,6 +4,7 @@ import debug = require('gulp-debug')
 import watch = require('gulp-watch')
 import constants from './config/constants'
 import rimraf = require('rimraf')
+const pathTool = require('path')
 
 const { copy, distPath, isWatch } = constants
 
@@ -16,8 +17,9 @@ function getTasks(isWatch = false) {
             // console.log('-------unlink', e.event)
             switch (e.event) {
                 case 'unlink': {
-                    const filePattern = filePath + '*'
-                    rimraf(filePattern, () => {
+                    const extname = pathTool.extname(filePath)
+                    const filePattern = filePath.replace(extname, '') + '?(.min)' + extname + '?(.map)' + '?(.*zip)'
+                    rimraf(filePattern, (error, e) => { 
                         console.log(`文件:${filePattern} 已删除!`)
                     })
                 } break

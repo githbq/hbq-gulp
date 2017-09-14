@@ -1,5 +1,5 @@
 import { argv } from 'yargs'
-console.log('argv', argv)
+// console.log('argv', argv)
 export default {
     css: {
         pattern: ['src/**/*.css', "!src/**/*min.*"]
