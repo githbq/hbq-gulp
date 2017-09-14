@@ -5,7 +5,7 @@
     "main": "build/index.js",
     "scripts": {
         "start": "gulp",
-        "tsc": "",
+        "tsc": "tsc",
         "lint": ""
     },
     "dependencies": {},
