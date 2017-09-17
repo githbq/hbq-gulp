@@ -19,7 +19,7 @@ function getTasks(isWatch = false) {
                 case 'unlink': {
                     const extname = pathTool.extname(filePath)
                     const filePattern = filePath.replace(extname, '') + '?(.min)' + extname + '?(.map)' + '?(.*zip)'
-                    rimraf(filePattern, (error, e) => { 
+                    rimraf(filePattern, (error, e) => {
                         console.log(`文件:${filePattern} 已删除!`)
                     })
                 } break

@@ -9,7 +9,9 @@
         "tsc": "tsc",
         "gzip": "gulp --gzip"
     },
-    "dependencies": {},
+    "dependencies": {
+        "gulp-autoprefixer": "^4.0.0"
+    },
     "devDependencies": {
         "@types/node": "^8.0.28",
         "copy": "^0.3.1",

@@ -9,8 +9,11 @@ import debug = require('gulp-debug')
 
 import filter = require('gulp-filter')
 import gzip = require('gulp-gzip')
+import autoprefixer = require('gulp-autoprefixer')
 
 import constants from '../config/constants'
+
+
 const { css, distPath, isGzip } = constants
 
 
@@ -19,6 +22,21 @@ function getTasks(isWatch = false) {
         (isWatch ? watch : gulp.src)(css.pattern, {}),
         debug({ title: '编译:' }),
         plumber(),
+        autoprefixer({
+            browsers: [
+                'ie >= 9',
+                'ie_mob >= 10',
+                'ff >= 30',
+                'chrome >= 34',
+                'safari >= 7',
+                'opera >= 23',
+                'ios >= 7',
+                'android >= 4.4',
+                'bb >= 10'
+            ],
+            cascade: false
+        }),
+        gulp.dest(distPath),
         sourcemaps.init(),
         minifyCss(),
         rename({ suffix: '.min' }),

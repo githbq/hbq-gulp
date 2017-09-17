@@ -25,6 +25,7 @@ function getTasks(isWatch = false) {
         (isWatch ? watch : gulp.src)(ts.pattern, {}),
         debug({ title: '编译:' }),
         plumber(),
+        gulp.dest(distPath),
         sourcemaps.init(),
         gulpTs({
         }),

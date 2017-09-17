@@ -25,6 +25,7 @@ function getTasks(isWatch = false) {
             title: '编译:'
         }),
         plumber(),
+        gulp.dest(distPath),
         sourcemaps.init(),
         minify(minifyOptions),
         rename({ suffix: '.min' }),
