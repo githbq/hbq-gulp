@@ -11,7 +11,7 @@ import debug = require('gulp-debug')
 import filter = require('gulp-filter')
 import gzip = require('gulp-gzip')
 import gulpTs = require('gulp-typescript')
-
+import browserify = require('gulp-browserify')
 const minify = composer(uglifyjs, console)
 
 import constants from '../config/constants'
@@ -27,7 +27,12 @@ function getTasks(isWatch = false) {
         plumber(),
         gulp.dest(distPath),
         sourcemaps.init(),
-        gulpTs({
+        gulpTs(
+            {
+            }
+        ),
+        browserify({
+            insertGlobals: false
         }),
         gulp.dest(distPath),
         minify(minifyOptions),
