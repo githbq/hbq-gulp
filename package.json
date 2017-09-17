@@ -5,9 +5,8 @@
     "main": "build/index.js",
     "scripts": {
         "start": "gulp",
-        "watch": "gulp-watch",
-        "tsc": "tsc",
-        "lint": "tslint ./**/*.ts"
+        "watch": "gulp --watch",
+        "gzip": "gulp --gzip"
     },
     "dependencies": {},
     "devDependencies": {

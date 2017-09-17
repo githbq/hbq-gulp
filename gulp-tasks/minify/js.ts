@@ -1,7 +1,7 @@
 import gulp = require('gulp')
 import watch = require('gulp-watch')
 import clean = require('gulp-clean')
-import rename = require("gulp-rename")
+import rename = require('gulp-rename')
 import composer = require('gulp-uglify/composer')
 import sourcemaps = require('gulp-sourcemaps')
 import uglifyjs = require('uglify-js')
@@ -27,7 +27,7 @@ function getTasks(isWatch = false) {
         plumber(),
         sourcemaps.init(),
         minify(minifyOptions),
-        rename({ suffix: ".min" }),
+        rename({ suffix: '.min' }),
         sourcemaps.write('.'),
         gulp.dest(distPath),
         filter(['**/*.min.js']),

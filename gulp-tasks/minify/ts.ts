@@ -1,6 +1,6 @@
 import gulp = require('gulp')
 import watch = require('gulp-watch')
-import rename = require("gulp-rename")
+import rename = require('gulp-rename')
 import composer = require('gulp-uglify/composer')
 import sourcemaps = require('gulp-sourcemaps')
 import uglifyjs = require('uglify-js')
@@ -17,7 +17,7 @@ const minify = composer(uglifyjs, console)
 import constants from '../config/constants'
 const { ts, distPath, isGzip } = constants
 
-const tsProject = gulpTs.createProject('tsconfig.json')
+// const tsProject = gulpTs.createProject('tsconfig.json')
 
 function getTasks(isWatch = false) {
     const minifyOptions = {}
@@ -26,16 +26,19 @@ function getTasks(isWatch = false) {
         debug({ title: '编译:' }),
         plumber(),
         sourcemaps.init(),
-        tsProject(),
-        // minify(minifyOptions),
-        // rename({ suffix: ".min" }),
+        gulpTs({
+        }),
+        gulp.dest(distPath),
+        minify(minifyOptions),
+        rename({ suffix: '.ts.min' }),
         sourcemaps.write('.'),
-        // gulp.dest(distPath),
-        // filter(['**/*.min.js']),
-        // ...(isGzip ? [gzip({
-        //     extension: 'gzip', append: true,
-        //     threshold: false
-        // })] : []),
+        gulp.dest(distPath),
+        filter(['**/*.min.js']),
+        ...(isGzip ? [gzip({
+            extension: 'gzip',
+            append: true,
+            threshold: false
+        })] : []),
         gulp.dest(distPath),
     ]
 }
