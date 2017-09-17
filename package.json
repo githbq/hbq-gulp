@@ -9,13 +9,16 @@
         "tsc": "tsc",
         "gzip": "gulp --gzip"
     },
-    "dependencies": {
-        "gulp-autoprefixer": "^4.0.0"
-    },
+    "dependencies": {},
     "devDependencies": {
         "@types/node": "^8.0.28",
+        "babel-core": "^6.26.0",
+        "babel-preset-env": "^1.6.0",
         "copy": "^0.3.1",
         "gulp": "^3.9.1",
+        "gulp-autoprefixer": "^4.0.0",
+        "gulp-babel": "^7.0.0",
+        "gulp-browserify": "^0.5.1",
         "gulp-clean": "^0.3.2",
         "gulp-concat": "^2.6.1",
         "gulp-copy": "^1.0.1",

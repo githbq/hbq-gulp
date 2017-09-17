@@ -11,7 +11,8 @@ import debug = require('gulp-debug')
 
 import filter = require('gulp-filter')
 import gzip = require('gulp-gzip')
-
+const babel = require('gulp-babel')
+import browserify = require('gulp-browserify')
 
 const minify = composer(uglifyjs, console)
 import constants from '../config/constants'
@@ -25,6 +26,12 @@ function getTasks(isWatch = false) {
             title: '编译:'
         }),
         plumber(),
+        babel({
+            presets: ['env']
+        }),
+        browserify({
+            insertGlobals: true
+        }),
         gulp.dest(distPath),
         sourcemaps.init(),
         minify(minifyOptions),
