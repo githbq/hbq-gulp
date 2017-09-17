@@ -6,6 +6,7 @@
     "scripts": {
         "start": "gulp",
         "watch": "gulp --watch",
+        "tsc": "tsc",
         "gzip": "gulp --gzip"
     },
     "dependencies": {},
