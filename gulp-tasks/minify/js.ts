@@ -30,7 +30,7 @@ function getTasks(isWatch = false) {
             presets: ['env']
         }),
         browserify({
-            insertGlobals: true
+            insertGlobals: false
         }),
         gulp.dest(distPath),
         sourcemaps.init(),
